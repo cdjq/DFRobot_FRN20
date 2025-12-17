@@ -4,7 +4,7 @@
  * @copyright Copyright (c) 2025 DFRobot Co.Ltd (http://www.dfrobot.com)
  * @license The MIT License (MIT)
  * @author [DFRobot](dfrobot.com)
- * @version V1.0
+ * @version V1.0.0
  * @date 2025-04-10
  * @url https://github.com/DFRobot/DFRobot_FRN20
  */
