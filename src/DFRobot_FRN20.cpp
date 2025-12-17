@@ -16,13 +16,13 @@ byte DFRobot_FRN20::begin(void)
   return _pWire->endTransmission();
 }
 
-uint8_t DFRobot_FRN20::readReg(uint16_t command, void *pBuf, size_t size)    //wire库最多只能读取32个字节,所以要分批次读取
+uint8_t DFRobot_FRN20::readReg(uint16_t command, void *pBufs, size_t size)    //wire库最多只能读取32个字节,所以要分批次读取
 {
   if (pBuf == NULL) {
     DBG("pBuf ERROR!! : null pointer");
     return -1;
   }
-  uint8_t *pBuf = (uint8_t *)pBuf;
+  uint8_t *pBuf = (uint8_t *)pBufs;
   _pWire->beginTransmission(_deviceAddr);
   _pWire->write(command >> 8);
   _pWire->write(command & 0xFF);
