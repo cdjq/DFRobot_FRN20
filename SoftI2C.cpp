@@ -3,17 +3,17 @@
 SoftI2C SoftWire(SDA_PIN, SCL_PIN);
 SoftI2C::SoftI2C(uint8_t dataPin, uint8_t clockPin, bool usePullup /*=false*/)
 {
-  sda    = dataPin;
-  scl    = clockPin;
-  pullup = usePullup;
+  _sda    = dataPin;
+  _scl    = clockPin;
+  _pullup = usePullup;
 }
 
 void SoftI2C::begin(void)
 {
-  rxBufferIndex  = 0;
-  rxBufferLength = 0;
-  error          = 0;
-  isTransmitting = false;
+  _rxBufferIndex  = 0;
+  _rxBufferLength = 0;
+  _error          = 0;
+  _isTransmitting = false;
 
   i2cInit();
 }
@@ -22,13 +22,13 @@ void SoftI2C::end(void) {}
 
 void SoftI2C::beginTransmission(uint8_t address)
 {
-  if (isTransmitting) {
-    error = (i2cRepStart((address << 1) | I2C_WRITE) ? 0 : 2);
+  if (_isTransmitting) {
+    _error = (i2cRepStart((address << 1) | I2C_WRITE) ? 0 : 2);
   } else {
-    error = (i2cStart((address << 1) | I2C_WRITE) ? 0 : 2);
+    _error = (i2cStart((address << 1) | I2C_WRITE) ? 0 : 2);
   }
-  // indicate that we are isTransmitting
-  isTransmitting = 1;
+  // indicate that we are _isTransmitting
+  _isTransmitting = 1;
 }
 
 void SoftI2C::beginTransmission(int address)
@@ -38,12 +38,12 @@ void SoftI2C::beginTransmission(int address)
 
 uint8_t SoftI2C::endTransmission(uint8_t sendStop)
 {
-  uint8_t transferError = error;
+  uint8_t transferError = _error;
   if (sendStop) {
     i2cStop();
-    isTransmitting = 0;
+    _isTransmitting = 0;
   }
-  error = 0;
+  _error = 0;
   return transferError;
 }
 
@@ -57,8 +57,8 @@ size_t SoftI2C::write(uint8_t data)
   if (i2cWrite(data)) {
     return 1;
   } else {
-    if (error == 0)
-      error = 3;
+    if (_error == 0)
+      _error = 3;
     return 0;
   }
 }
@@ -74,7 +74,7 @@ size_t SoftI2C::write(const uint8_t *data, size_t quantity)
 
 uint8_t SoftI2C::requestFrom(uint8_t address, uint8_t quantity, uint32_t iaddress, uint8_t isize, uint8_t sendStop)
 {
-  error              = 0;
+  _error              = 0;
   uint8_t localerror = 0;
   if (isize > 0) {
     beginTransmission(address);
@@ -92,25 +92,25 @@ uint8_t SoftI2C::requestFrom(uint8_t address, uint8_t quantity, uint32_t iaddres
   if (quantity > I2C_BUFFER_LENGTH) {
     quantity = I2C_BUFFER_LENGTH;
   }
-  if (isTransmitting) {
+  if (_isTransmitting) {
     localerror = !i2cRepStart((address << 1) | I2C_READ);
   } else {
     localerror = !i2cStart((address << 1) | I2C_READ);
   }
-  if (error == 0 && localerror)
-    error = 2;
+  if (_error == 0 && localerror)
+    _error = 2;
   // perform blocking read into buffer
   for (uint8_t count = 0; count < quantity; count++) {
-    rxBuffer[count] = i2cRead(count == quantity - 1);
+    _rxBuffer[count] = i2cRead(count == quantity - 1);
   }
   // set rx buffer iterator vars
-  rxBufferIndex  = 0;
-  rxBufferLength = error ? 0 : quantity;
+  _rxBufferIndex  = 0;
+  _rxBufferLength = _error ? 0 : quantity;
   if (sendStop) {
-    isTransmitting = 0;
+    _isTransmitting = 0;
     i2cStop();
   }
-  return rxBufferLength;
+  return _rxBufferLength;
 }
 
 uint8_t SoftI2C::requestFrom(uint8_t address, uint8_t quantity, uint8_t sendStop)
@@ -135,15 +135,15 @@ uint8_t SoftI2C::requestFrom(int address, int quantity)
 
 int SoftI2C::available(void)
 {
-  return rxBufferLength - rxBufferIndex;
+  return _rxBufferLength - _rxBufferIndex;
 }
 
 int SoftI2C::read(void)
 {
   int value = -1;
-  if (rxBufferIndex < rxBufferLength) {
-    value = rxBuffer[rxBufferIndex];
-    ++rxBufferIndex;
+  if (_rxBufferIndex < _rxBufferLength) {
+    value = _rxBuffer[_rxBufferIndex];
+    ++_rxBufferIndex;
   }
   return value;
 }
@@ -152,8 +152,8 @@ int SoftI2C::peek(void)
 {
   int value = -1;
 
-  if (rxBufferIndex < rxBufferLength) {
-    value = rxBuffer[rxBufferIndex];
+  if (_rxBufferIndex < _rxBufferLength) {
+    value = _rxBuffer[_rxBufferIndex];
   }
   return value;
 }
@@ -171,11 +171,11 @@ void SoftI2C::flush(void) {}
  */
 bool SoftI2C::i2cInit(void)
 {
-  digitalWrite(sda, LOW);
-  digitalWrite(scl, LOW);
-  setPinHigh(sda);
-  setPinHigh(scl);
-  if (digitalRead(sda) == LOW || digitalRead(scl) == LOW)
+  digitalWrite(_sda, LOW);
+  digitalWrite(_scl, LOW);
+  setPinHigh(_sda);
+  setPinHigh(_scl);
+  if (digitalRead(_sda) == LOW || digitalRead(_scl) == LOW)
     return false;
   return true;
 }
@@ -191,9 +191,9 @@ bool SoftI2C::i2cInit(void)
  */
 bool SoftI2C::i2cStart(uint8_t addr)
 {
-  setPinLow(sda);
+  setPinLow(_sda);
   delayMicroseconds(DELAY);
-  setPinLow(scl);
+  setPinLow(_scl);
   return i2cWrite(addr);
 }
 
@@ -231,8 +231,8 @@ bool SoftI2C::i2cStartWait(uint8_t addr)
  */
 bool SoftI2C::i2cRepStart(uint8_t addr)
 {
-  setPinHigh(sda);
-  setPinHigh(scl);
+  setPinHigh(_sda);
+  setPinHigh(_scl);
   delayMicroseconds(DELAY);
   return i2cStart(addr);
 }
@@ -245,11 +245,11 @@ bool SoftI2C::i2cRepStart(uint8_t addr)
  */
 void SoftI2C::i2cStop(void)
 {
-  setPinLow(sda);
+  setPinLow(_sda);
   delayMicroseconds(DELAY);
-  setPinHigh(scl);
+  setPinHigh(_scl);
   delayMicroseconds(DELAY);
-  setPinHigh(sda);
+  setPinHigh(_sda);
   delayMicroseconds(DELAY);
 }
 
@@ -263,21 +263,21 @@ bool SoftI2C::i2cWrite(uint8_t value)
 {
   for (uint8_t curr = 0X80; curr != 0; curr >>= 1) {
     if (curr & value)
-      setPinHigh(sda);
+      setPinHigh(_sda);
     else
-      setPinLow(sda);
-    setPinHigh(scl);
+      setPinLow(_sda);
+    setPinHigh(_scl);
     delayMicroseconds(DELAY);
-    setPinLow(scl);
+    setPinLow(_scl);
   }
 
-  setPinHigh(sda);
-  setPinHigh(scl);
+  setPinHigh(_sda);
+  setPinHigh(_scl);
   delayMicroseconds(DELAY / 2);
-  uint8_t ack = digitalRead(sda);
-  setPinLow(scl);
+  uint8_t ack = digitalRead(_sda);
+  setPinLow(_scl);
   delayMicroseconds(DELAY / 2);
-  setPinLow(sda);
+  setPinLow(_sda);
   return ack == 0;
 }
 
@@ -294,24 +294,24 @@ bool SoftI2C::i2cWrite(uint8_t value)
 uint8_t SoftI2C::i2cRead(bool last)
 {
   uint8_t receivedByte = 0;
-  setPinHigh(sda);
+  setPinHigh(_sda);
   for (uint8_t i = 0; i < 8; i++) {
     receivedByte <<= 1;
     delayMicroseconds(DELAY);
-    setPinHigh(scl);
-    if (digitalRead(sda))
+    setPinHigh(_scl);
+    if (digitalRead(_sda))
       receivedByte |= 1;
-    setPinLow(scl);
+    setPinLow(_scl);
   }
   if (last)
-    setPinHigh(sda);
+    setPinHigh(_sda);
   else
-    setPinLow(sda);
-  setPinHigh(scl);
+    setPinLow(_sda);
+  setPinHigh(_scl);
   delayMicroseconds(DELAY / 2);
-  setPinLow(scl);
+  setPinLow(_scl);
   delayMicroseconds(DELAY / 2);
-  setPinLow(sda);
+  setPinLow(_sda);
   return receivedByte;
 }
 /**
@@ -326,7 +326,7 @@ uint8_t SoftI2C::i2cRead(bool last)
 void SoftI2C::setPinLow(uint8_t pin)
 {
   noInterrupts();
-  if (pullup)
+  if (_pullup)
     digitalWrite(pin, LOW);
   pinMode(pin, OUTPUT);
   interrupts();
@@ -343,7 +343,7 @@ void SoftI2C::setPinLow(uint8_t pin)
 void SoftI2C::setPinHigh(uint8_t pin)
 {
   noInterrupts();
-  if (pullup)
+  if (_pullup)
     pinMode(pin, INPUT_PULLUP);
   else
     pinMode(pin, INPUT);

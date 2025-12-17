@@ -47,8 +47,8 @@ public:
     uint16_t range;        /*!< Data7-8: Measurement range */
     uint16_t offset;       /*!< Data9-10: Offset value */
     uint16_t mediumCoeff;  /*!< Data11-12: Medium conversion coefficient */
-    uint16_t voutMinmV;    /*!< Data17-20: Minimum output voltage in mV */
-    uint16_t voutMaxmV;    /*!< Data21-24: Maximum output voltage in mV */
+    uint32_t voutMinmV;    /*!< Data17-20: Minimum output voltage in mV */
+    uint32_t voutMaxmV;    /*!< Data21-24: Maximum output voltage in mV */
     uint8_t  productId[5]; /*!< Data30-33: Product ID in ASCII format with null termination */
     uint8_t  crc;          /*!< Data41: CRC checksum */
   } sParams_t;

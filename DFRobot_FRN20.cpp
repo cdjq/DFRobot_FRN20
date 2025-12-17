@@ -9,7 +9,7 @@
  * @url https://github.com/DFRobot/DFRobot_FRN20
  */
 #include "DFRobot_FRN20.h"
-byte DFRobot_FRN20::begin(void)    //检查是否能查询到设备
+byte DFRobot_FRN20::begin(void)   
 {
   _pWire->begin();
   _pWire->beginTransmission(_deviceAddr);
@@ -22,8 +22,7 @@ uint8_t DFRobot_FRN20::readReg(uint16_t command, void *pBuf, size_t size)    //w
     DBG("pBuf ERROR!! : null pointer");
     return -1;
   }
-  uint8_t *_pBuf = (uint8_t *)pBuf;
-
+  uint8_t *pBuf = (uint8_t *)pBuf;
   _pWire->beginTransmission(_deviceAddr);
   _pWire->write(command >> 8);
   _pWire->write(command & 0xFF);
@@ -34,7 +33,7 @@ uint8_t DFRobot_FRN20::readReg(uint16_t command, void *pBuf, size_t size)    //w
   }
   _pWire->requestFrom(_deviceAddr, (uint8_t)size);
   for (size_t i = 0; i < size; i++) {
-    _pBuf[i] = _pWire->read();    //31
+    pBuf[i] = _pWire->read();    //31
   }
 
   return size;
