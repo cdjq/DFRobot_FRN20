@@ -92,8 +92,8 @@ class DFRobot_FRN20:
     try:
       self._write_command(self.FRN20_IIC_ADDRESS)
       return 1
-    except Exception as err:  # Use more descriptive variable name
-      print("Init error: {}".format(err))
+    except Exception as e:  # Use more descriptive variable name
+      print("Init error: {}".format(e))
       return -1
 
   def read_params(self):
@@ -152,4 +152,4 @@ class DFRobot_FRN20:
       self.mass_flow_data = float(delta) / float(self.params.medium_coeff)
       return 1
     return 0
-  
+    
