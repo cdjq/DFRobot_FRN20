@@ -16,9 +16,9 @@ byte DFRobot_FRN20::begin(void)
   return _pWire->endTransmission();
 }
 
-uint8_t DFRobot_FRN20::readReg(uint16_t command, void *pBufs, size_t size)    //wire库最多只能读取32个字节,所以要分批次读取
+uint8_t DFRobot_FRN20::readReg(uint16_t command, void *pBufs, size_t size)   
 {
-  if (pBuf == NULL) {
+  if (pBufs == NULL) {
     DBG("pBuf ERROR!! : null pointer");
     return -1;
   }
@@ -33,7 +33,7 @@ uint8_t DFRobot_FRN20::readReg(uint16_t command, void *pBufs, size_t size)    //
   }
   _pWire->requestFrom(_deviceAddr, (uint8_t)size);
   for (size_t i = 0; i < size; i++) {
-    pBuf[i] = _pWire->read();    //31
+    pBuf[i] = _pWire->read();    
   }
 
   return size;
@@ -70,8 +70,8 @@ uint8_t DFRobot_FRN20::readParams(void)
     params.range       = (_buf[6] << 8) | _buf[7];
     params.offset      = (_buf[8] << 8) | _buf[9];
     params.mediumCoeff = (_buf[10] << 8) | _buf[11];
-    params.voutMinmV   = (_buf[16] << 24) | (_buf[17] << 16) | (_buf[18] << 8) | _buf[19];
-    params.voutMaxmV   = (_buf[20] << 24) | (_buf[21] << 16) | (_buf[22] << 8) | _buf[23];
+    params.voutMinmV   = ((uint32_t)_buf[16] << 24) | ((uint32_t)_buf[17] << 16) | ((uint32_t)_buf[18] << 8) | (uint32_t)_buf[19];
+    params.voutMaxmV   = ((uint32_t)_buf[20] << 24) | ((uint32_t)_buf[21] << 16) | ((uint32_t)_buf[22] << 8) | (uint32_t)_buf[23];
     memcpy(params.productId, &_buf[29], 4);
     params.productId[4] = '\0';
     params.crc          = _buf[40];

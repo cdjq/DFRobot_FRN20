@@ -298,7 +298,7 @@ public:
 /**
  * @brief Global SoftI2C instance using default pins
  */
-extern SoftI2C SoftWire;
+extern SoftI2C softWire;
 
 #endif
 #pragma once

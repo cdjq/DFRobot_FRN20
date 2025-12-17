@@ -12,7 +12,7 @@
 #define _DFROBOT_FRN20_H_
 
 #include <Arduino.h>
-
+ 
 #include "SoftI2C.h"
 #define ENABLE_DBG
 
@@ -58,7 +58,7 @@ public:
    * @brief Constructor, passing in I2C bus device
    * @param pWire I2C bus object
    */
-  DFRobot_FRN20(SoftI2C *pWire = &SoftWire)
+  DFRobot_FRN20(SoftI2C *pWire = &softWire)
   {
     _pWire      = pWire;
     _deviceAddr = FRN20_IIC_ADDRESS;

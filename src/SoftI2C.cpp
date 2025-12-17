@@ -1,6 +1,6 @@
 
 #include "SoftI2C.h"
-SoftI2C SoftWire(SDA_PIN, SCL_PIN);
+SoftI2C softWire(SDA_PIN, SCL_PIN);
 SoftI2C::SoftI2C(uint8_t dataPin, uint8_t clockPin, bool usePullup /*=false*/)
 {
   _sda    = dataPin;
