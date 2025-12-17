@@ -58,7 +58,7 @@ public:
    * @brief Constructor, passing in I2C bus device
    * @param pWire I2C bus object
    */
-  DFRobot_FRN20(SoftI2C *pWire = &softWire)
+  DFRobot_FRN20(DFRobot_SoftI2C *pWire = &dfrobot_softWire)
   {
     _pWire      = pWire;
     _deviceAddr = FRN20_IIC_ADDRESS;
@@ -125,7 +125,7 @@ protected:
   uint8_t readReg(uint16_t command, void *pBuf, size_t size);
 
 private:
-  SoftI2C *_pWire;      /*!< I2C bus object */
+  DFRobot_SoftI2C *_pWire;      /*!< I2C bus object */
   uint8_t  _deviceAddr; /*!< Device address */
   uint8_t  _buf[50];    /*!< Data buffer */
 };
