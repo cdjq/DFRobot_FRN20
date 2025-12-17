@@ -27,7 +27,7 @@
 #define DELAY        500      /*!< Microsecond delay */
 #define I2C_MAXWAIT  5000     /*!< Maximum I2C wait time */
 
-class SoftI2C : public Stream {
+class DFRobot_SoftI2C : public Stream {
 private:
   /**
    * @fn setPinHigh
@@ -113,7 +113,7 @@ public:
    * @param clockPin SCL pin number
    * @param usePullup Use internal pullup resistors if true
    */
-  SoftI2C(uint8_t dataPin, uint8_t clockPin, bool usePullup = false);
+  DFRobot_SoftI2C(uint8_t dataPin, uint8_t clockPin, bool usePullup = false);
   
   /**
    * @fn begin

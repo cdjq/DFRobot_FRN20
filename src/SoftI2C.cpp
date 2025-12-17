@@ -1,14 +1,14 @@
 
 #include "SoftI2C.h"
-SoftI2C softWire(SDA_PIN, SCL_PIN);
-SoftI2C::SoftI2C(uint8_t dataPin, uint8_t clockPin, bool usePullup /*=false*/)
+DFRobot_SoftI2C softWire(SDA_PIN, SCL_PIN);
+DFRobot_SoftI2C::DFRobot_SoftI2C(uint8_t dataPin, uint8_t clockPin, bool usePullup /*=false*/)
 {
   _sda    = dataPin;
   _scl    = clockPin;
   _pullup = usePullup;
 }
 
-void SoftI2C::begin(void)
+void DFRobot_SoftI2C::begin(void)
 {
   _rxBufferIndex  = 0;
   _rxBufferLength = 0;
@@ -18,25 +18,24 @@ void SoftI2C::begin(void)
   i2cInit();
 }
 
-void SoftI2C::end(void) {}
+void DFRobot_SoftI2C::end(void) {}
 
-void SoftI2C::beginTransmission(uint8_t address)
+void DFRobot_SoftI2C::beginTransmission(uint8_t address)
 {
   if (_isTransmitting) {
     _error = (i2cRepStart((address << 1) | I2C_WRITE) ? 0 : 2);
   } else {
     _error = (i2cStart((address << 1) | I2C_WRITE) ? 0 : 2);
   }
-  // indicate that we are _isTransmitting
   _isTransmitting = 1;
 }
 
-void SoftI2C::beginTransmission(int address)
+void DFRobot_SoftI2C::beginTransmission(int address)
 {
   beginTransmission((uint8_t)address);
 }
 
-uint8_t SoftI2C::endTransmission(uint8_t sendStop)
+uint8_t DFRobot_SoftI2C::endTransmission(uint8_t sendStop)
 {
   uint8_t transferError = _error;
   if (sendStop) {
@@ -47,12 +46,12 @@ uint8_t SoftI2C::endTransmission(uint8_t sendStop)
   return transferError;
 }
 
-uint8_t SoftI2C::endTransmission(void)
+uint8_t DFRobot_SoftI2C::endTransmission(void)
 {
   return endTransmission(true);
 }
 
-size_t SoftI2C::write(uint8_t data)
+size_t DFRobot_SoftI2C::write(uint8_t data)
 {
   if (i2cWrite(data)) {
     return 1;
@@ -63,7 +62,7 @@ size_t SoftI2C::write(uint8_t data)
   }
 }
 
-size_t SoftI2C::write(const uint8_t *data, size_t quantity)
+size_t DFRobot_SoftI2C::write(const uint8_t *data, size_t quantity)
 {
   size_t progress = 0;
   for (size_t i = 0; i < quantity; ++i) {
@@ -72,7 +71,7 @@ size_t SoftI2C::write(const uint8_t *data, size_t quantity)
   return progress;
 }
 
-uint8_t SoftI2C::requestFrom(uint8_t address, uint8_t quantity, uint32_t iaddress, uint8_t isize, uint8_t sendStop)
+uint8_t DFRobot_SoftI2C::requestFrom(uint8_t address, uint8_t quantity, uint32_t iaddress, uint8_t isize, uint8_t sendStop)
 {
   _error              = 0;
   uint8_t localerror = 0;
@@ -113,32 +112,32 @@ uint8_t SoftI2C::requestFrom(uint8_t address, uint8_t quantity, uint32_t iaddres
   return _rxBufferLength;
 }
 
-uint8_t SoftI2C::requestFrom(uint8_t address, uint8_t quantity, uint8_t sendStop)
+uint8_t DFRobot_SoftI2C::requestFrom(uint8_t address, uint8_t quantity, uint8_t sendStop)
 {
   return requestFrom((uint8_t)address, (uint8_t)quantity, (uint32_t)0, (uint8_t)0, (uint8_t)sendStop);
 }
 
-uint8_t SoftI2C::requestFrom(int address, int quantity, int sendStop)
+uint8_t DFRobot_SoftI2C::requestFrom(int address, int quantity, int sendStop)
 {
   return requestFrom((uint8_t)address, (uint8_t)quantity, (uint8_t)sendStop);
 }
 
-uint8_t SoftI2C::requestFrom(uint8_t address, uint8_t quantity)
+uint8_t DFRobot_SoftI2C::requestFrom(uint8_t address, uint8_t quantity)
 {
   return requestFrom((uint8_t)address, (uint8_t)quantity, (uint8_t)true);
 }
 
-uint8_t SoftI2C::requestFrom(int address, int quantity)
+uint8_t DFRobot_SoftI2C::requestFrom(int address, int quantity)
 {
   return requestFrom((uint8_t)address, (uint8_t)quantity, (uint8_t)true);
 }
 
-int SoftI2C::available(void)
+int DFRobot_SoftI2C::available(void)
 {
   return _rxBufferLength - _rxBufferIndex;
 }
 
-int SoftI2C::read(void)
+int DFRobot_SoftI2C::read(void)
 {
   int value = -1;
   if (_rxBufferIndex < _rxBufferLength) {
@@ -148,7 +147,7 @@ int SoftI2C::read(void)
   return value;
 }
 
-int SoftI2C::peek(void)
+int DFRobot_SoftI2C::peek(void)
 {
   int value = -1;
 
@@ -158,18 +157,18 @@ int SoftI2C::peek(void)
   return value;
 }
 
-void SoftI2C::flush(void) {}
+void DFRobot_SoftI2C::flush(void) {}
 
 /**
- * @brief Initializes the SoftI2C module.
+ * @brief Initializes the DFRobot_SoftI2C module.
  *
- * This function needs to be called once in the beginning to initialize the SoftI2C module.
+ * This function needs to be called once in the beginning to initialize the DFRobot_SoftI2C module.
  * It returns false if either the SDA or SCL lines are low, which may indicate an I2C bus lockup
  * or that the lines are not properly pulled up.
  *
  * @return True if initialization is successful, false otherwise.
  */
-bool SoftI2C::i2cInit(void)
+bool DFRobot_SoftI2C::i2cInit(void)
 {
   digitalWrite(_sda, LOW);
   digitalWrite(_scl, LOW);
@@ -189,7 +188,7 @@ bool SoftI2C::i2cInit(void)
  * @param addr The 8-bit I2C address to communicate with.
  * @return Returns true if the slave responds with an "acknowledge" signal, false otherwise.
  */
-bool SoftI2C::i2cStart(uint8_t addr)
+bool DFRobot_SoftI2C::i2cStart(uint8_t addr)
 {
   setPinLow(_sda);
   delayMicroseconds(DELAY);
@@ -207,7 +206,7 @@ bool SoftI2C::i2cStart(uint8_t addr)
  * @param addr The 7-bit I2C address of the target device.
  * @return Returns true if the I2C start and ACK were successful, false otherwise.
  */
-bool SoftI2C::i2cStartWait(uint8_t addr)
+bool DFRobot_SoftI2C::i2cStartWait(uint8_t addr)
 {
   long retry = I2C_MAXWAIT;
   while (!i2cStart(addr)) {
@@ -229,7 +228,7 @@ bool SoftI2C::i2cStartWait(uint8_t addr)
  *
  * @return True if the slave replies with an "acknowledge", false otherwise.
  */
-bool SoftI2C::i2cRepStart(uint8_t addr)
+bool DFRobot_SoftI2C::i2cRepStart(uint8_t addr)
 {
   setPinHigh(_sda);
   setPinHigh(_scl);
@@ -243,7 +242,7 @@ bool SoftI2C::i2cRepStart(uint8_t addr)
  * This function generates a stop condition on the I2C bus,
  * releasing the bus for other devices to use.
  */
-void SoftI2C::i2cStop(void)
+void DFRobot_SoftI2C::i2cStop(void)
 {
   setPinLow(_sda);
   delayMicroseconds(DELAY);
@@ -259,7 +258,7 @@ void SoftI2C::i2cStop(void)
  * @param value The byte to be sent.
  * @return True if the slave replies with an "acknowledge," false otherwise.
  */
-bool SoftI2C::i2cWrite(uint8_t value)
+bool DFRobot_SoftI2C::i2cWrite(uint8_t value)
 {
   for (uint8_t curr = 0X80; curr != 0; curr >>= 1) {
     if (curr & value)
@@ -291,7 +290,7 @@ bool SoftI2C::i2cWrite(uint8_t value)
  * @param last Set to true if NAK should be sent after the byte read.
  * @return The byte read from the I2C bus.
  */
-uint8_t SoftI2C::i2cRead(bool last)
+uint8_t DFRobot_SoftI2C::i2cRead(bool last)
 {
   uint8_t receivedByte = 0;
   setPinHigh(_sda);
@@ -323,7 +322,7 @@ uint8_t SoftI2C::i2cRead(bool last)
  *
  * @param pin The pin to be set to a low state.
  */
-void SoftI2C::setPinLow(uint8_t pin)
+void DFRobot_SoftI2C::setPinLow(uint8_t pin)
 {
   noInterrupts();
   if (_pullup)
@@ -340,7 +339,7 @@ void SoftI2C::setPinLow(uint8_t pin)
  *
  * @param pin The pin number to set high and configure.
  */
-void SoftI2C::setPinHigh(uint8_t pin)
+void DFRobot_SoftI2C::setPinHigh(uint8_t pin)
 {
   noInterrupts();
   if (_pullup)

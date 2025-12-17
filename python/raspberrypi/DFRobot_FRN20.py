@@ -24,15 +24,15 @@ class DFRobot_FRN20:
   FRN20_CRC_POLYNOMIAL = 0x131
 
   # Using ctypes to define Params structure
-  class Params(Structure):
+  class DFRobot_Params(Structure):
     _fields_ = [
       ('unit', c_uint16),  # Unit (0x15 mL/min, 0x16 L/min, etc.)
       ('range', c_uint16),  # Range
       ('offset', c_uint16),  # Offset
-      ('mediumCoeff', c_uint16),  # Conversion coefficient
-      ('voutMinmV', c_uint16),  # Output voltage lower limit (mV)
-      ('voutMaxmV', c_uint16),  # Output voltage upper limit (mV)
-      ('productId', c_ubyte * 5),  # Product ID (5-byte ASCII, including terminator)
+      ('medium_coeff', c_uint16),  # Conversion coefficient
+      ('vout_min_mv', c_uint16),  # Output voltage lower limit (mV)
+      ('vout_max_mv', c_uint16),  # Output voltage upper limit (mV)
+      ('product_id', c_ubyte * 5),  # Product ID (5-byte ASCII, including terminator)
       ('crc', c_ubyte),  # CRC check
     ]
 
@@ -46,9 +46,9 @@ class DFRobot_FRN20:
     '''
     self.bus = SMBus(bus)
     self.addr = addr
-    self.params = self.Params()  # Initialize Params structure instance
-    self.rawFlowData = 0  # Raw flow data
-    self.massFlowData = 0.0  # Mass flow data
+    self.params = self.DFRobot_Params()  # Initialize Params structure instance
+    self.raw_flow_data = 0  # Raw flow data
+    self.mass_flow_data = 0.0  # Mass flow data
 
   def _write_command(self, command):
     '''
@@ -81,7 +81,7 @@ class DFRobot_FRN20:
     crc = self.FRN20_CRC_INITIAL_VALUE
     for byte in data:
       crc ^= byte
-      for bit in range(8, 0, -1):
+      for _ in range(8, 0, -1):  # Use underscore for unused variable
         if crc & 0x80:
           crc = (crc << 1) ^ self.FRN20_CRC_POLYNOMIAL
         else:
@@ -93,8 +93,8 @@ class DFRobot_FRN20:
     try:
       self._write_command(self.FRN20_IIC_ADDRESS)
       return 1
-    except Exception as e:
-      print("Init error: {}".format(e))
+    except Exception as err:  # Use more descriptive variable name
+      print("Init error: {}".format(err))
       return -1
 
   def read_params(self):
@@ -112,14 +112,14 @@ class DFRobot_FRN20:
       self.params.unit = (data[4] << 8) | data[5]
       self.params.range = (data[6] << 8) | data[7]
       self.params.offset = (data[8] << 8) | data[9]
-      self.params.mediumCoeff = (data[10] << 8) | data[11]
-      self.params.voutMinmV = (data[16] << 24) | (data[17] << 16) | (data[18] << 8) | data[19]
-      self.params.voutMaxmV = (data[20] << 24) | (data[21] << 16) | (data[22] << 8) | data[23]
+      self.params.medium_coeff = (data[10] << 8) | data[11]
+      self.params.vout_min_mv = (data[16] << 24) | (data[17] << 16) | (data[18] << 8) | data[19]
+      self.params.vout_max_mv = (data[20] << 24) | (data[21] << 16) | (data[22] << 8) | data[23]
 
-      # Process productId (5 bytes)
+      # Process product_id (5 bytes)
       for i in range(4):
-        self.params.productId[i] = data[29 + i]
-      self.params.productId[4] = 0  # Add terminator
+        self.params.product_id[i] = data[29 + i]
+      self.params.product_id[4] = 0  # Add terminator
 
       self.params.crc = data[40]
       return 1
@@ -136,7 +136,7 @@ class DFRobot_FRN20:
     self._write_command(self.FRN20_COMMAND_READ_FLOW)
     data = self._read_bytes(self.FRN20_FLOW_FRAME_LEN)
     if self._calc_crc(data[:-1]) == data[-1]:
-      self.rawFlowData = (data[0] << 8) | data[1]
+      self.raw_flow_data = (data[0] << 8) | data[1]
       return 1
     return 0
 
@@ -149,7 +149,7 @@ class DFRobot_FRN20:
     @retval 0: Failed
     '''
     if self.read_raw_flow_data():
-      delta = self.rawFlowData - self.params.offset
-      self.massFlowData = float(delta) / float(self.params.mediumCoeff)
+      delta = self.raw_flow_data - self.params.offset
+      self.mass_flow_data = float(delta) / float(self.params.medium_coeff)
       return 1
     return 0
