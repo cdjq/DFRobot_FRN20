@@ -58,7 +58,7 @@ public:
    * @brief Constructor, passing in I2C bus device
    * @param pWire I2C bus object
    */
-  DFRobot_FRN20(DFRobot_SoftI2C *pWire = &dfrobot_softWire)
+  DFRobot_FRN20(DFRobot_SoftI2C *pWire = &dfrobotSoftWire)
   {
     _pWire      = pWire;
     _deviceAddr = FRN20_IIC_ADDRESS;

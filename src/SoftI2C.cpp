@@ -1,6 +1,6 @@
 
 #include "SoftI2C.h"
-DFRobot_SoftI2C dfrobot_softWire(SDA_PIN, SCL_PIN);
+DFRobot_SoftI2C dfrobotSoftWire(SDA_PIN, SCL_PIN);
 DFRobot_SoftI2C::DFRobot_SoftI2C(uint8_t dataPin, uint8_t clockPin, bool usePullup /*=false*/)
 {
   _sda    = dataPin;

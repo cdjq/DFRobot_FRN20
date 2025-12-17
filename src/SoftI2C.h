@@ -298,7 +298,7 @@ public:
 /**
  * @brief Global DFRobot_SoftI2C instance using default pins
  */
-extern DFRobot_SoftI2C dfrobot_softWire;
+extern DFRobot_SoftI2C dfrobotSoftWire;
 
 #endif
 #pragma once
