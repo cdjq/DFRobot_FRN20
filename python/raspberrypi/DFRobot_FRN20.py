@@ -13,6 +13,7 @@
 from smbus2 import SMBus, i2c_msg
 from ctypes import Structure, c_uint16, c_ubyte
 
+
 class DFRobot_FRN20:
   FRN20_IIC_ADDRESS = 0x40
   FRN20_COMMAND_READ_FLOW = 0x1000
@@ -152,4 +153,3 @@ class DFRobot_FRN20:
       self.mass_flow_data = float(delta) / float(self.params.medium_coeff)
       return 1
     return 0
-    

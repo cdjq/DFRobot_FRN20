@@ -1,7 +1,9 @@
 import time
 import sys
+
 sys.path.append("../")
 from DFRobot_FRN20 import DFRobot_FRN20
+
 frn20 = DFRobot_FRN20()
 
 
@@ -32,6 +34,7 @@ def loop():
   print(f"Raw Value: {frn20.raw_flow_data} SLM")
   print(f"Flow Value: {frn20.mass_flow_data} SLM")
   time.sleep(2)
+
 
 setup()
 loop()

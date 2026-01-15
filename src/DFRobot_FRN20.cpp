@@ -16,71 +16,68 @@ byte DFRobot_FRN20::begin(void)
   return _pWire->endTransmission();
 }
 
-uint8_t DFRobot_FRN20::readReg(uint16_t command,void *pBuf,size_t size)
+uint8_t DFRobot_FRN20::readReg(uint16_t command, void *pBuf, size_t size)
 {
-  if(pBuf == NULL){
+  if (pBuf == NULL) {
     DBG("pBuf ERROR!! : null pointer");
     return -1;
   }
-  uint8_t * _pBuf = (uint8_t *)pBuf;
+  uint8_t *pBuffer = (uint8_t *)pBuf;
 
   _pWire->beginTransmission(_deviceAddr);
-  _pWire->write(command>>8);
+  _pWire->write(command >> 8);
   _pWire->write(command & 0xFF);
 
-  if( _pWire->endTransmission() != 0){
-    DBG("endTransmission ERROR!! : null pointer");  
+  if (_pWire->endTransmission() != 0) {
+    DBG("endTransmission ERROR!! : null pointer");
     return 0;
   }
-  
+
   delay(3);
-  
-  if (_pWire->requestFrom(_deviceAddr, (uint8_t) size) != size) {
+
+  if (_pWire->requestFrom(_deviceAddr, (uint8_t)size) != size) {
     DBG("requestFrom ERROR!! : size mismatch");
     return 0;
   }
 
-  for(size_t i = 0; i < size; i++)
-  {
-    _pBuf[i] = _pWire->read();
+  for (size_t i = 0; i < size; i++) {
+    pBuffer[i] = _pWire->read();
   }
-  
+
   return size;
 }
 
 uint8_t DFRobot_FRN20::readRawFlowData(void)
 {
-  memset(_buf,0,5);
-  if(readReg(FRN20_COMMAND_READ_FLOW,_buf,5) == 5)
-  {
+  memset(_buf, 0, 5);
+  if (readReg(FRN20_COMMAND_READ_FLOW, _buf, 5) == 5) {
     rawFlowData = ((uint16_t)_buf[0] << 8) | _buf[1];
     return 1;
-  } 
+  }
   return 0;
 }
 
 uint8_t DFRobot_FRN20::readMassFlowData(void)
 {
-   if(readRawFlowData()){
-      int32_t delta = (int32_t)rawFlowData - (int32_t)params.offset;
-      massFlowData = (float)delta / (float)params.mediumCoeff;
-      return 1;
-   }
-   return 0;
+  if (readRawFlowData()) {
+    int32_t delta = (int32_t)rawFlowData - (int32_t)params.offset;
+    massFlowData  = (float)delta / (float)params.mediumCoeff;
+    return 1;
+  }
+  return 0;
 }
 
 uint8_t DFRobot_FRN20::readParams(void)
 {
-  memset(_buf,0,FRN20_PARAM_FRAME_LEN);
-  if(readReg(FRN20_COMMAND_READ_PARAMS,_buf,FRN20_PARAM_FRAME_LEN) == FRN20_PARAM_FRAME_LEN)
-  {
-     params.unit         = ((uint16_t)_buf[4]  << 8) | _buf[5];   
-     params.range        = ((uint16_t)_buf[6]  << 8) | _buf[7];   
-     params.offset       = ((uint16_t)_buf[8]  << 8) | _buf[9];   
-     params.mediumCoeff  = ((uint16_t)_buf[10] << 8) | _buf[11]; 
-     params.voutMinmV    = ((uint32_t)_buf[16] << 24) | ((uint32_t)_buf[17] << 16) | ((uint32_t)_buf[18] << 8) | (uint32_t)_buf[19]; 
-     params.voutMaxmV    = ((uint32_t)_buf[20] << 24) | ((uint32_t)_buf[21] << 16) | ((uint32_t)_buf[22] << 8) | (uint32_t)_buf[23];  
-     return 1;
+  memset(_buf, 0, FRN20_PARAM_FRAME_LEN);
+  if (readReg(FRN20_COMMAND_READ_PARAMS, _buf, FRN20_PARAM_FRAME_LEN) == FRN20_PARAM_FRAME_LEN) {
+    params.unit        = ((uint16_t)_buf[4] << 8) | _buf[5];
+    params.range       = ((uint16_t)_buf[6] << 8) | _buf[7];
+    params.offset      = ((uint16_t)_buf[8] << 8) | _buf[9];
+    params.mediumCoeff = ((uint16_t)_buf[10] << 8) | _buf[11];
+    params.voutMinmV   = ((uint32_t)_buf[16] << 24) | ((uint32_t)_buf[17] << 16) | ((uint32_t)_buf[18] << 8) | (uint32_t)_buf[19];
+    params.voutMaxmV   = ((uint32_t)_buf[20] << 24) | ((uint32_t)_buf[21] << 16) | ((uint32_t)_buf[22] << 8) | (uint32_t)_buf[23];
+    return 1;
   }
   return 0;
 }
