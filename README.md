@@ -30,8 +30,7 @@ This library provides a way to drive the FRN20 flow sensor under the Arduino IDE
  * @brief Constructor, passing in I2C bus device
  * @param pWire I2C bus object
  */
-DFRobot_FRN20(DFRobot_SoftI2C *pWire = &dfrobotSoftWire);
-
+DFRobot_FRN20(TwoWire *pWire = &Wire)
 /**
  * @fn begin
  * @brief Check whether the FRN20 device exists on the I2C bus
@@ -72,12 +71,12 @@ uint8_t readMassFlowData(void);
 | MCU | Work Well | Work Wrong | Untested | Remarks |
 |-----|-----------|------------|----------|---------|
 | Arduino UNO | √ | | | |
-| Arduino MEGA2560 | √ | | | |
-| Arduino Leonardo | √ | | | |
+| Arduino MEGA2560 |  | | √| |
+| Arduino Leonardo |  | | √| |
 | ESP32 | √ | | | |
-| ESP8266 | √ | | | |
-| STM32 | √ | | | |
-| Micro:bit | √ | | | |
+| ESP8266 |  | | √| |
+| STM32 |  | | √| |
+| Micro:bit |  | |√ | |
 
 ## History
 - Date: 2025-12-17
