@@ -27,5 +27,5 @@ void loop()
   Serial.print(frN20.massFlowData);
   Serial.println(" SLM");
 
-  delay(2000);
+  delay(500);
 }
