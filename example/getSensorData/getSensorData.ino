@@ -11,27 +11,7 @@ void          setup()
   Serial.println("successed");
 
   if (frN20.readParams()) {
-    Serial.print("Unit: ");
-    Serial.print(frN20.params.unit);
-    Serial.println("  L/min");
-
-    Serial.print("Range: ");
-    Serial.print(frN20.params.range, HEX);
-    Serial.println("  L/min");
-
-    Serial.print("Offset: ");
-    Serial.println(frN20.params.offset);
-
-    Serial.print("Medium Coefficient: ");
-    Serial.println(frN20.params.mediumCoeff);
-
-    Serial.print("Output Voltage Lower Limit: ");
-    Serial.print(frN20.params.voutMinmV);
-    Serial.println("  mV");
-
-    Serial.print("Output Voltage Upper Limit: ");
-    Serial.print(frN20.params.voutMaxmV);
-    Serial.println("  mV");
+    Serial.println("readParams Successed");
   } else {
     Serial.println("Failed, readParams error!");
   }
@@ -42,10 +22,6 @@ void loop()
   // put your main code here, to run repeatedly:
   frN20.readRawFlowData();
   frN20.readMassFlowData();
-
-  Serial.print("Raw Value: ");
-  Serial.print(frN20.rawFlowData);
-  Serial.println(" SLM");
 
   Serial.print("Flow Value: ");
   Serial.print(frN20.massFlowData);
