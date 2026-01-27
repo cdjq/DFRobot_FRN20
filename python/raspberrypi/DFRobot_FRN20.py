@@ -11,6 +11,7 @@
 '''
 
 from smbus2 import SMBus, i2c_msg
+import time
 from ctypes import Structure, c_uint16, c_ubyte
 
 
@@ -92,12 +93,16 @@ class DFRobot_FRN20:
   def begin(self):
     try:
       self._write_command(self.FRN20_IIC_ADDRESS)
+      # ensure parameters are read (retry until successful)
+      while not self._read_params():
+        print("Failed, readParams error!")
+        time.sleep(0.5)
       return 1
     except OSError as err:  # Use more descriptive variable name
       print("Init error: {}".format(err))
       return -1
 
-  def read_params(self):
+  def _read_params(self):
     '''
     @fn read_params
     @brief Read parameters from the sensor
@@ -125,7 +130,7 @@ class DFRobot_FRN20:
       return 1
     return 0
 
-  def read_raw_flow_data(self):
+  def _read_raw_flow_data(self):
     '''
     @fn read_raw_flow_data
     @brief Read raw flow data from the sensor
@@ -148,7 +153,7 @@ class DFRobot_FRN20:
     @retval 1: Success
     @retval 0: Failed
     '''
-    if self.read_raw_flow_data():
+    if self._read_raw_flow_data():
       delta = self.raw_flow_data - self.params.offset
       self.mass_flow_data = float(delta) / float(self.params.medium_coeff)
       return 1

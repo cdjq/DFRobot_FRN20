@@ -1,0 +1,75 @@
+# DFRobot_FRN20
+
+- [中文版](./README_CN.md)
+
+## Overview
+The FRN20 is a high-precision flow sensor designed for accurate measurement of gas or liquid flow rates. The module integrates temperature compensation and factory calibration, suitable for applications that require stable flow measurements in wearable, medical, and industrial fields.
+
+Product Link: https://www.dfrobot.com/
+
+```text
+SKU: SEN0630
+```
+
+## Table of Contents
+* [Summary](#summary)
+* [Installation](#installation)
+* [Methods](#methods)
+* [Compatibility](#compatibility)
+* [History](#history)
+* [Credits](#credits)
+
+## Summary
+This Python library provides drivers for the FRN20 flow sensor on Raspberry Pi, offering I2C communication, parameter loading and flow data reading interfaces for easy integration.
+
+## Installation
+1. Clone the repository to your Raspberry Pi:
+```bash
+git clone https://github.com/DFRobot/DFRobot_FRN20.git
+```
+
+2. Enter the Python directory:
+```bash
+cd DFRobot_FRN20/python/raspberrypi
+```
+
+3. Install dependencies:
+```bash
+pip install smbus2
+```
+
+## Methods
+
+```python
+def begin(self):
+    """
+    Initialize the sensor and ensure parameters are loaded (blocking until success)
+    @return Initialization status
+    @retval 1: Success
+    @retval -1: Failure (I2C init error)
+    """
+
+def read_mass_flow_data(self):
+    """
+    Read mass flow data from the sensor (automatically converted to physical units)
+    @return Operation result
+    @retval 1: Success
+    @retval 0: Failure
+    @note The mass flow data is stored in self.mass_flow_data (in SLM - Standard Liters per Minute)
+    """
+```
+
+## Compatibility
+| Platform | Work Well | Work Wrong | Untested | Remarks |
+|----------|:---------:|:----------:|:--------:|---------|
+| Raspberry Pi 2 |  | | √ | |
+| Raspberry Pi 3 |  | | √ | |
+| Raspberry Pi 4 | √ | | | |
+
+## History
+- Date: 2026-01-26
+- Version: V1.0.0
+
+## Credits
+Written by PLELES (PLELES@dfrobot.com), 2026-01-26
+[DFRobot Website](https://www.dfrobot.com/)

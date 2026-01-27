@@ -13,7 +13,14 @@ byte DFRobot_FRN20::begin(void)
 {
   _pWire->begin();
   _pWire->beginTransmission(_deviceAddr);
-  return _pWire->endTransmission();
+  byte ret = _pWire->endTransmission();
+  if (ret == 0) {
+    while (!readParams()) {
+      DBG("Failed, readParams error!");
+      delay(500);
+    }
+  }
+  return ret;
 }
 
 uint8_t DFRobot_FRN20::readReg(uint16_t command, void *pBuf, size_t size)

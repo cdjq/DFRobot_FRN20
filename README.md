@@ -1,87 +1,76 @@
 # DFRobot_FRN20
 
+- [中文版](./README_CN.md)
+
 ## Overview
-The FRN20 is a high-precision flow sensor designed for accurate measurement of gas or liquid flow rates. It features an I2C communication interface, compact size, high accuracy, and fast response time, making it suitable for applications in gas analysis, medical devices, industrial automation, and more.
+The FRN20 is a high-precision flow sensor designed for accurate measurement of gas or liquid flow rates. It features an I2C communication interface, factory calibration, and temperature compensation to provide stable, repeatable measurements across varying environmental conditions.
+##
+Product Link: https://www.dfrobot.com/
 
-The sensor includes built-in temperature compensation to ensure measurement accuracy across different environmental conditions. Each FRN20 sensor is factory calibrated and can be easily integrated into your project via the I2C interface.
-
-## Product Link
-[FRN20 Flow Sensor](https://www.dfrobot.com/)
+```text
+SKU: SEN0630
+```
 
 ## Table of Contents
 * [Summary](#summary)
 * [Installation](#installation)
 * [Methods](#methods)
 * [Compatibility](#compatibility)
+* [Hardware Connection](#hardware-connection)
+* [Troubleshooting](#troubleshooting)
 * [History](#history)
 * [Credits](#credits)
 
-
 ## Summary
-This library provides a way to drive the FRN20 flow sensor under the Arduino IDE. It allows you to read flow data, sensor parameters, and perform configuration operations.
+This Arduino/C++ library provides drivers for the FRN20 flow sensor. It supports I2C communication to read raw and calibrated flow values, and to load sensor parameters (range, offset, conversion coefficients) from the device.
 
 ## Installation
-1. To use this library, first download the library file, paste it into the Arduino libraries directory, then open the examples folder and run the demo.
+1. Download or copy the library into your Arduino `libraries` directory.
+2. Include the library in your sketch:
 
-## Methods
+```cpp
+#include <DFRobot_FRN20.h>
+```
+
+## Methods (Arduino C++ API)
 ```C++
 /**
  * @fn DFRobot_FRN20
- * @brief Constructor, passing in I2C bus device
- * @param pWire I2C bus object
+ * @brief Constructor, pass in I2C bus object
+ * @param pWire I2C bus object (default: &Wire)
  */
-DFRobot_FRN20(TwoWire *pWire = &Wire)
+DFRobot_FRN20(TwoWire *pWire = &Wire);
+
 /**
  * @fn begin
- * @brief Check whether the FRN20 device exists on the I2C bus
- * @return Whether the sensor device is found
- * @retval 0: Sensor device exists, other values: Sensor device does not exist
+ * @brief Initialize I2C and check device presence
+ * @return byte Result of `Wire.endTransmission()` (0 = success)
  */
 byte begin(void);
 
 /**
- * @fn readParams
- * @brief Read sensor parameters
- * @return Operation result
- * @retval 1: Success
- * @retval 0: Failure
- */
-uint8_t readParams(void);
-
-/**
- * @fn readRawFlowData
- * @brief Read raw flow data
- * @return Operation result
- * @retval 1: Success
- * @retval 0: Failure
- */
-uint8_t readRawFlowData(void);
-
-/**
  * @fn readMassFlowData
- * @brief Read mass flow data
- * @return Operation result
- * @retval 1: Success
- * @retval 0: Failure
+ * @brief Read and convert mass flow using loaded parameters
+ * @return uint8_t 1 = success, 0 = failure
  */
 uint8_t readMassFlowData(void);
 ```
 
 ## Compatibility
-| MCU | Work Well | Work Wrong | Untested | Remarks |
-|-----|-----------|------------|----------|---------|
-| Arduino UNO | √ | | | |
-| Arduino MEGA2560 |  | | √| |
-| Arduino Leonardo |  | | √| |
-| ESP32 | √ | | | |
-| ESP8266 |  | | √| |
-| STM32 |  | | √| |
-| Micro:bit |  | |√ | |
+| Platform | Work Well | Work Wrong | Untested | Remarks |
+|----------|:---------:|:----------:|:--------:|---------|
+| Arduino UNO |  |√| | |
+| Arduino MEGA2560 |  | |√| |
+| Arduino Leonardo |  | | √ | |
+| FireBeeetle-M0 |  | | √ | |
+| FireBeeetle-ESP32-E |  √| |  | |
+| ESP8266 |  |√  | | |
+| Micro:bit |  | | √ | |
 
 ## History
-- Date: 2025-12-17
+- Date: 2026-01-26
 - Version: V1.0.0
 
 ## Credits
-Written by fary (feng.yang@dfrobot.com), 2025.12-17
+Written by PLELES (PLELES@dfrobot.com), 2026-01-26
 [DFRobot Website](https://www.dfrobot.com/)

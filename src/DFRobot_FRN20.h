@@ -70,23 +70,6 @@ public:
    */
   byte begin(void);
 
-  /**
-   * @fn readParams
-   * @brief Read sensor parameters
-   * @return Operation result
-   * @retval 1: Success
-   * @retval 0: Failure
-   */
-  uint8_t readParams(void);
-
-  /**
-   * @fn readRawFlowData
-   * @brief Read raw flow data
-   * @return Operation result
-   * @retval 1: Success
-   * @retval 0: Failure
-   */
-  uint8_t readRawFlowData(void);
 
   /**
    * @fn readMassFlowData
@@ -113,6 +96,24 @@ protected:
   uint8_t readReg(uint16_t command, void *pBuf, size_t size);
 
 private:
+  /**
+   * @fn readParams
+   * @brief Read sensor parameters
+   * @return Operation result
+   * @retval 1: Success
+   * @retval 0: Failure
+   */
+  uint8_t readParams(void);
+
+  /**
+   * @fn readRawFlowData
+   * @brief Read raw flow data
+   * @return Operation result
+   * @retval 1: Success
+   * @retval 0: Failure
+   */
+  uint8_t readRawFlowData(void);
+
   TwoWire *_pWire;      /*!< I2C bus object */
   uint8_t  _deviceAddr; /*!< Device address */
   uint8_t  _buf[32];    /*!< Data buffer */
