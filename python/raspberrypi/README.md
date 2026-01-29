@@ -37,6 +37,10 @@ cd DFRobot_FRN20/python/raspberrypi
 ```bash
 pip install smbus2
 ```
+4. For example, to run the getSensorData.py example, you need to enter:
+```bash
+python getSensorData.py
+```
 
 ## Methods
 
@@ -67,8 +71,7 @@ def read_mass_flow_data(self):
 | Raspberry Pi 4 | √ | | | |
 
 ## History
-- Date: 2026-01-26
-- Version: V1.0.0
+- 2026/01/26 - Version 1.0.0 released.
 
 ## Credits
 Written by PLELES (PLELES@dfrobot.com), 2026-01-26

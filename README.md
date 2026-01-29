@@ -68,8 +68,7 @@ uint8_t readMassFlowData(void);
 | Micro:bit |  | | √ | |
 
 ## History
-- Date: 2026-01-26
-- Version: V1.0.0
+- 2026/01/26 - Version 1.0.0 released.
 
 ## Credits
 Written by PLELES (PLELES@dfrobot.com), 2026-01-26

@@ -69,8 +69,7 @@ uint8_t readMassFlowData(void);
 | Micro:bit |  | | √ | |
 
 ## 历史
-- 日期：2026-01-26
-- 版本：V1.0.0
+- 2026/01/26 - 1.0.0 版本
 
 ## 创作者
 作者：PLELES (PLELES@dfrobot.com)，2026-01-26
