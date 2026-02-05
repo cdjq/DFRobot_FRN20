@@ -112,9 +112,9 @@ private:
     uint32_t voutMaxmV;   /*!< Data21-24: Maximum output voltage in mV */
   } sParams_t;
 
-  sParams_t params;       /*!< Sensor parameters */
+  sParams_t _params;       /*!< Sensor parameters */
   TwoWire *_pWire;      /*!< I2C bus object */
-  uint16_t  rawFlowData;  /*!< Raw flow data */
+  uint16_t  _rawFlowData;  /*!< Raw flow data */
   uint8_t  _deviceAddr; /*!< Device address */
   uint8_t  _buf[32];    /*!< Data buffer */
 };

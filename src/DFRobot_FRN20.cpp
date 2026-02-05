@@ -60,7 +60,7 @@ uint8_t DFRobot_FRN20::readRawFlowData(void)
 {
   memset(_buf, 0, 5);
   if (readReg(FRN20_COMMAND_READ_FLOW, _buf, 5) == 5) {
-    rawFlowData = ((uint16_t)_buf[0] << 8) | _buf[1];
+    _rawFlowData = ((uint16_t)_buf[0] << 8) | _buf[1];
     return 1;
   }
   return 0;
@@ -69,8 +69,8 @@ uint8_t DFRobot_FRN20::readRawFlowData(void)
 uint8_t DFRobot_FRN20::readMassFlowData(void)
 {
   if (readRawFlowData()) {
-    int32_t delta = (int32_t)rawFlowData - (int32_t)params.offset;
-    massFlowData  = (float)delta / (float)params.mediumCoeff;
+    int32_t delta = (int32_t)_rawFlowData - (int32_t)_params.offset;
+    massFlowData  = (float)delta / (float)_params.mediumCoeff;
     return 1;
   }
   return 0;
@@ -80,13 +80,13 @@ uint8_t DFRobot_FRN20::readParams(void)
 {
   memset(_buf, 0, FRN20_PARAM_FRAME_LEN);
   if (readReg(FRN20_COMMAND_READ_PARAMS, _buf, FRN20_PARAM_FRAME_LEN) == FRN20_PARAM_FRAME_LEN) {
-    params.unit        = ((uint16_t)_buf[4] << 8) | _buf[5];
-    params.range       = ((uint16_t)_buf[6] << 8) | _buf[7];
-    params.offset      = ((uint16_t)_buf[8] << 8) | _buf[9];
-    params.mediumCoeff = ((uint16_t)_buf[10] << 8) | _buf[11];
-    params.voutMinmV   = ((uint32_t)_buf[16] << 24) | ((uint32_t)_buf[17] << 16) | ((uint32_t)_buf[18] << 8) | (uint32_t)_buf[19];
-    params.voutMaxmV   = ((uint32_t)_buf[20] << 24) | ((uint32_t)_buf[21] << 16) | ((uint32_t)_buf[22] << 8) | (uint32_t)_buf[23];
-    if(params.unit != 0x15 && params.unit != 0x16){
+    _params.unit        = ((uint16_t)_buf[4] << 8) | _buf[5];
+    _params.range       = ((uint16_t)_buf[6] << 8) | _buf[7];
+    _params.offset      = ((uint16_t)_buf[8] << 8) | _buf[9];
+    _params.mediumCoeff = ((uint16_t)_buf[10] << 8) | _buf[11];
+    _params.voutMinmV   = ((uint32_t)_buf[16] << 24) | ((uint32_t)_buf[17] << 16) | ((uint32_t)_buf[18] << 8) | (uint32_t)_buf[19];
+    _params.voutMaxmV   = ((uint32_t)_buf[20] << 24) | ((uint32_t)_buf[21] << 16) | ((uint32_t)_buf[22] << 8) | (uint32_t)_buf[23];
+    if(_params.unit != 0x15 && _params.unit != 0x16){
       return 0;
     }
     return 1;
