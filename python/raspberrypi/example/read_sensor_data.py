@@ -22,6 +22,11 @@ def loop():
   print(f"Flow Value: {frn20.mass_flow_data} SLM")
   time.sleep(0.5)
 
+if __name__ == "__main__":
+  setup()
+  try:
+    while True:
+      loop()
+  except KeyboardInterrupt:
+    print("Program stopped")
 
-setup()
-loop()

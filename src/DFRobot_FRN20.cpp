@@ -12,6 +12,9 @@
 byte DFRobot_FRN20::begin(void)
 {
   _pWire->begin();
+#if defined(ESP8266)
+  _pWire->setClockStretchLimit(2000);
+#endif
   _pWire->beginTransmission(_deviceAddr);
   byte ret = _pWire->endTransmission();
   if (ret == 0) {
@@ -46,7 +49,6 @@ uint8_t DFRobot_FRN20::readReg(uint16_t command, void *pBuf, size_t size)
     DBG("requestFrom ERROR!! : size mismatch");
     return 0;
   }
-
   for (size_t i = 0; i < size; i++) {
     pBuffer[i] = _pWire->read();
   }
@@ -84,6 +86,9 @@ uint8_t DFRobot_FRN20::readParams(void)
     params.mediumCoeff = ((uint16_t)_buf[10] << 8) | _buf[11];
     params.voutMinmV   = ((uint32_t)_buf[16] << 24) | ((uint32_t)_buf[17] << 16) | ((uint32_t)_buf[18] << 8) | (uint32_t)_buf[19];
     params.voutMaxmV   = ((uint32_t)_buf[20] << 24) | ((uint32_t)_buf[21] << 16) | ((uint32_t)_buf[22] << 8) | (uint32_t)_buf[23];
+    if(params.unit != 0x15 && params.unit != 0x16){
+      return 0;
+    }
     return 1;
   }
   return 0;

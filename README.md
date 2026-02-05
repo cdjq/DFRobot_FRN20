@@ -3,7 +3,7 @@
 - [中文版](./README_CN.md)
 
 ## Overview
-The FRN20 is a high-precision flow sensor designed for accurate measurement of gas or liquid flow rates. It features an I2C communication interface, factory calibration, and temperature compensation to provide stable, repeatable measurements across varying environmental conditions.
+The FRn20 series micro-flow gas mass flow sensor is specifically designed for various micro-flow process control applications. This product is an upgrade based on the FR20 series, offering significantly enhanced zero stability and full-scale signal stability. It is suitable for industrial process monitoring.      
 ##
 Product Link: https://www.dfrobot.com/
 
@@ -59,13 +59,13 @@ uint8_t readMassFlowData(void);
 ## Compatibility
 | Platform | Work Well | Work Wrong | Untested | Remarks |
 |----------|:---------:|:----------:|:--------:|---------|
-| Arduino UNO |  |√| | |
-| Arduino MEGA2560 |  | |√| |
-| Arduino Leonardo |  | | √ | |
-| FireBeeetle-M0 |  | | √ | |
+| Arduino UNO |  √|| | |
+| Arduino MEGA2560 |  √| || |
+| Arduino Leonardo |  √| |  | |
+| FireBeeetle-M0 |  √| | | |
 | FireBeeetle-ESP32-E |  √| |  | |
-| ESP8266 |  |√  | | |
-| Micro:bit |  | | √ | |
+| ESP8266 | √  |  | | |
+| Micro:bit |  √ | | | |
 
 ## History
 - 2026/01/26 - Version 1.0.0 released.

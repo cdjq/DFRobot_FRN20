@@ -31,25 +31,12 @@
 
 #define FRN20_IIC_ADDRESS         0x40   /*!< FRN20 I2C address */
 #define FRN20_COMMAND_READ_FLOW   0x1000 /*!< Command to read flow data, returns 5 bytes */
-#define FRN20_COMMAND_READ_PARAMS 0xCCDD /*!< Command to read parameters, returns 41 bytes */
+#define FRN20_COMMAND_READ_PARAMS 0xCCDD /*!< Command to read parameters, returns 41 bytes only read 32 bytes */
 #define FRN20_PARAM_FRAME_LEN     32     /*!< Length of parameter frame */
 #define FRN20_FLOW_FRAME_LEN      5      /*!< Length of flow data frame */
 
 class DFRobot_FRN20 {
 public:
-  /**
-   * @struct sParams_t
-   * @brief FRN20 sensor parameters structure
-   */
-  typedef struct {
-    uint16_t unit;        /*!< Data5-6: Unit (0x15 mL/min, 0x16 L/min, etc.) */
-    uint16_t range;       /*!< Data7-8: Measurement range */
-    uint16_t offset;      /*!< Data9-10: Offset value */
-    uint16_t mediumCoeff; /*!< Data11-12: Medium conversion coefficient */
-    uint32_t voutMinmV;   /*!< Data17-20: Minimum output voltage in mV */
-    uint32_t voutMaxmV;   /*!< Data21-24: Maximum output voltage in mV */
-  } sParams_t;
-
   /**
    * @fn DFRobot_FRN20
    * @brief Constructor, passing in I2C bus device
@@ -80,8 +67,6 @@ public:
    */
   uint8_t readMassFlowData(void);
 
-  sParams_t params;       /*!< Sensor parameters */
-  uint16_t  rawFlowData;  /*!< Raw flow data */
   float     massFlowData; /*!< Mass flow data */
 
 protected:
@@ -114,7 +99,22 @@ private:
    */
   uint8_t readRawFlowData(void);
 
+  /**
+   * @struct sParams_t
+   * @brief FRN20 sensor parameters structure
+   */
+  typedef struct {
+    uint16_t unit;        /*!< Data5-6: Unit (0x15 mL/min, 0x16 L/min, etc.) */
+    uint16_t range;       /*!< Data7-8: Measurement range */
+    uint16_t offset;      /*!< Data9-10: Offset value */
+    uint16_t mediumCoeff; /*!< Data11-12: Medium conversion coefficient */
+    uint32_t voutMinmV;   /*!< Data17-20: Minimum output voltage in mV */
+    uint32_t voutMaxmV;   /*!< Data21-24: Maximum output voltage in mV */
+  } sParams_t;
+
+  sParams_t params;       /*!< Sensor parameters */
   TwoWire *_pWire;      /*!< I2C bus object */
+  uint16_t  rawFlowData;  /*!< Raw flow data */
   uint8_t  _deviceAddr; /*!< Device address */
   uint8_t  _buf[32];    /*!< Data buffer */
 };

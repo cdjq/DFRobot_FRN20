@@ -3,7 +3,7 @@
 - [中文版](./README_CN.md)
 
 ## Overview
-The FRN20 is a high-precision flow sensor designed for accurate measurement of gas or liquid flow rates. The module integrates temperature compensation and factory calibration, suitable for applications that require stable flow measurements in wearable, medical, and industrial fields.
+The FRn20 series micro-flow gas mass flow sensor is specifically designed for various micro-flow process control applications. This product is an upgrade based on the FR20 series, offering significantly enhanced zero stability and full-scale signal stability. It is suitable for industrial process monitoring.   
 
 Product Link: https://www.dfrobot.com/
 

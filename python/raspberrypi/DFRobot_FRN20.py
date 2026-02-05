@@ -125,8 +125,10 @@ class DFRobot_FRN20:
       for i in range(4):
         self.params.product_id[i] = data[29 + i]
       self.params.product_id[4] = 0  # Add terminator
-
+    
       self.params.crc = data[40]
+      if self.params.unit != 0x15 and self.params.unit != 0x16:
+        return 0
       return 1
     return 0
 

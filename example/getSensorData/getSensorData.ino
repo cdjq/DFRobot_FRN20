@@ -4,10 +4,14 @@ void          setup()
 {
   Serial.begin(115200);
   while (!Serial);
+  Serial.println("");
   Serial.print("FRN20 init...");
   while (frN20.begin() != 0) {
+    
     Serial.println("failed,Not found FRN20!");
+    delay(500);
   }
+  Serial.println("");
   Serial.println("successed");
 }
 
@@ -17,6 +21,5 @@ void loop()
   Serial.print("Flow Value: ");
   Serial.print(frN20.massFlowData);
   Serial.println(" SLM");
-
   delay(500);
 }

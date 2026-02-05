@@ -3,7 +3,7 @@
 - [English Version](./README.md)
 
 ## 概述
-FRN20 是一款高精度流量传感器，适用于精确测量气体或液体流速。该模块通过 I2C 接口通信，具有出厂校准与温度补偿，能在多种环境下保持测量稳定性。
+FRn20系列流量传感器采用MEMS热式原理对管路气体介质进行流量监测。本产品基于FR20系列升级，产品零点稳定性和全量程信号稳定性显著提高，适用于工业过程检测。 
 
 
 ##
@@ -60,13 +60,13 @@ uint8_t readMassFlowData(void);
 ## 兼容性
 | Platform | Work Well | Work Wrong | Untested | Remarks |
 |----------|:---------:|:----------:|:--------:|---------|
-| Arduino UNO |  |√| | |
-| Arduino MEGA2560 |  | |√| |
-| Arduino Leonardo |  | | √ | |
-| FireBeeetle-M0 |  | | √ | |
+| Arduino UNO |  √|| | |
+| Arduino MEGA2560 |  √| || |
+| Arduino Leonardo |  √| |  | |
+| FireBeeetle-M0 |  √| | | |
 | FireBeeetle-ESP32-E |  √| |  | |
-| ESP8266 |  |√  | | |
-| Micro:bit |  | | √ | |
+| ESP8266 | √  |  | | |
+| Micro:bit |  √ | | | |
 
 ## 历史
 - 2026/01/26 - 1.0.0 版本
