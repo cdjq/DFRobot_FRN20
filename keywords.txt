@@ -7,29 +7,23 @@
 #######################################
 
 DFRobot_FRN20	KEYWORD1
-sParams_t	KEYWORD1
+sParams_t	    KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
 
-begin			KEYWORD2
-readParams		KEYWORD2
-readRawFlowData		KEYWORD2
+begin			    KEYWORD2
 readMassFlowData	KEYWORD2
-
+massFlowData	    KEYWORD2
 #######################################
 # Constants (LITERAL1)
 #######################################
 
-FRN20_IIC_ADDRESS		LITERAL1
+FRN20_IIC_ADDRESS		    LITERAL1
 FRN20_COMMAND_READ_FLOW		LITERAL1
 FRN20_COMMAND_READ_PARAMS	LITERAL1
 
 #######################################
-# Instances (VARIABLE)
+# Instances (KEYWORD2)
 #######################################
-
-params		VARIABLE
-rawFlowData	VARIABLE
-massFlowData	VARIABLE
