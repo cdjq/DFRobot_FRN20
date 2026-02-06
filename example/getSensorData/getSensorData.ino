@@ -1,6 +1,16 @@
+/*!
+ * @file getSensorData.ino
+ * @brief Example of reading sensor data from DFRobot_FRN20.
+ * @copyright  Copyright (c) 2026 DFRobot Co.Ltd (http://www.dfrobot.com)
+ * @license The MIT License (MIT)
+ * @author [PLELES] (https://github.com/PLELES)
+ * @version V1.0
+ * @date 2026-1-21
+ * @url https://github.com/DFRobot/DFRobot_FRN20
+ */
 #include "DFRobot_FRN20.h"
 DFRobot_FRN20 frN20;
-void          setup()
+void setup()
 {
   Serial.begin(115200);
   while (!Serial);

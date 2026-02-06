@@ -2,11 +2,11 @@
 '''
 @file DFRobot_FRN20.py
 @brief Define the basic structure and methods of the DFRobot_FRN20 class.
-@copyright   Copyright (c) 2025 DFRobot Co.Ltd (http://www.dfrobot.com)
+@copyright   Copyright (c) 2026 DFRobot Co.Ltd (http://www.dfrobot.com)
 @license     The MIT license (MIT)
-@author [fary](feng.yang@dfrobot.com)
+@author [PLELES] (https://github.com/PLELES)
 @version  V1.0
-@date  2025-12-15
+@date  2026-01-26
 @https://github.com/DFRobot/DFRobot_FRN20
 '''
 

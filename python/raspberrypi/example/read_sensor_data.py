@@ -1,3 +1,12 @@
+'''
+@file read_sensor_data.py
+@brief read sensor data demo - Read mass flow data from DFRobot_FRN20.
+@copyright   Copyright (c) 2026 DFRobot Co.Ltd (http://www.dfrobot.com)
+@license     The MIT license (MIT)
+@author [PLELES] (https://github.com/PLELES)
+@version  V1.0
+@date  2026-01-26
+'''
 import time
 import sys
 

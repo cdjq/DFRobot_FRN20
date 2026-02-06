@@ -1,11 +1,11 @@
 /*!
  * @file DFRobot_FRN20.h
  * @brief DFRobot_FRN20 class infrastructure
- * @copyright  Copyright (c) 2025 DFRobot Co.Ltd (http://www.dfrobot.com)
+ * @copyright  Copyright (c) 2026 DFRobot Co.Ltd (http://www.dfrobot.com)
  * @license The MIT License (MIT)
- * @author [fary](feng.yang@dfrobot.com)
+ * @author [PLELES] (https://github.com/PLELES)
  * @version V1.0
- * @date 2025-04-10
+ * @date 2026-01-26
  * @url https://github.com/DFRobot/DFRobot_FRN20
  */
 #ifndef _DFROBOT_FRN20_H_

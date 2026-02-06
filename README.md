@@ -4,8 +4,9 @@
 
 ## Overview
 The FRn20 series micro-flow gas mass flow sensor is specifically designed for various micro-flow process control applications. This product is an upgrade based on the FR20 series, offering significantly enhanced zero stability and full-scale signal stability. It is suitable for industrial process monitoring.      
-##
-Product Link: https://www.dfrobot.com/
+
+
+# Product Link: https://www.dfrobot.com/
 
 ```text
 SKU: SEN0630
@@ -71,5 +72,4 @@ uint8_t readMassFlowData(void);
 - 2026/01/26 - Version 1.0.0 released.
 
 ## Credits
-Written by PLELES (PLELES@dfrobot.com), 2026-01-26
-[DFRobot Website](https://www.dfrobot.com/)
+Written by PLELES (PLELES@dfrobot.com),2026.(Welcome to our [website](https://www.dfrobot.com/))
