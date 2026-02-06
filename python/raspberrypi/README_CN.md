@@ -4,8 +4,8 @@
 
 ## 概述
 FRn20系列流量传感器采用MEMS热式原理对管路气体介质进行流量监测。本产品基于FR20系列升级，产品零点稳定性和全量程信号稳定性显著提高，适用于工业过程检测。 
-
-# 产品链接: https://www.dfrobot.com.cn/
+![alt text](1a81697c68a2bbf4d735576d98900e92.png)
+## 产品链接  (https://www.dfrobot.com.cn/)
 
 ```text
 SKU: SEN0630
