@@ -4,7 +4,7 @@
 @brief Define the basic structure and methods of the DFRobot_FRN20 class.
 @copyright   Copyright (c) 2026 DFRobot Co.Ltd (http://www.dfrobot.com)
 @license     The MIT license (MIT)
-@author [PLELES] (https://github.com/PLELES)
+@author [PLELES] (feng.yang@dfrobot.com)
 @version  V1.0
 @date  2026-01-26
 @https://github.com/DFRobot/DFRobot_FRN20
